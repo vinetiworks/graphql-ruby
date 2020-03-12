@@ -105,3 +105,4 @@ end
 require "graphql/directive/include_directive"
 require "graphql/directive/skip_directive"
 require "graphql/directive/deprecated_directive"
+require "graphql/directive/fake_directive"

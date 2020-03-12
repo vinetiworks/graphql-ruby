@@ -77,6 +77,13 @@ module GraphQL
           )
         end
 
+        if field.fake
+          field_node = field_node.merge_directive(
+            name: GraphQL::Directive::FakeDirective.graphql_name,
+            arguments: [GraphQL::Language::Nodes::Argument.new(name: "helper", value: field.fake)]
+          )
+        end
+
         field_node
       end
 

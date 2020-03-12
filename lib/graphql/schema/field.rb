@@ -166,6 +166,7 @@ module GraphQL
       # @param type [Class, GraphQL::BaseType, Array] The return type of this field
       # @param owner [Class] The type that this field belongs to
       # @param null [Boolean] `true` if this field may return `null`, `false` if it is never `null`
+      # @param fake [String] The Faker.js helper method to generate the @fake directive in the Schema
       # @param description [String] Field description
       # @param deprecation_reason [String] If present, the field is marked "deprecated" with this message
       # @param method [Symbol] The method to call on the underlying object to resolve this field (defaults to `name`)
@@ -188,7 +189,7 @@ module GraphQL
       # @param trace [Boolean] If true, a {GraphQL::Tracing} tracer will measure this scalar field
       # @param ast_node [Language::Nodes::FieldDefinition, nil] If this schema was parsed from definition, this AST node defined the field
       # @param method_conflict_warning [Boolean] If false, skip the warning if this field's method conflicts with a built-in method
-      def initialize(type: nil, name: nil, owner: nil, null: nil, field: nil, function: nil, description: nil, deprecation_reason: nil, method: nil, hash_key: nil, resolver_method: nil, resolve: nil, connection: nil, max_page_size: nil, scope: nil, introspection: false, camelize: true, trace: nil, complexity: 1, ast_node: nil, extras: [], extensions: EMPTY_ARRAY, connection_extension: self.class.connection_extension, resolver_class: nil, subscription_scope: nil, relay_node_field: false, relay_nodes_field: false, method_conflict_warning: true, arguments: EMPTY_HASH, &definition_block)
+      def initialize(type: nil, name: nil, owner: nil, null: nil, field: nil, function: nil, fake: nil, description: nil, deprecation_reason: nil, method: nil, hash_key: nil, resolver_method: nil, resolve: nil, connection: nil, max_page_size: nil, scope: nil, introspection: false, camelize: true, trace: nil, complexity: 1, ast_node: nil, extras: [], extensions: EMPTY_ARRAY, connection_extension: self.class.connection_extension, resolver_class: nil, subscription_scope: nil, relay_node_field: false, relay_nodes_field: false, method_conflict_warning: true, arguments: EMPTY_HASH, &definition_block)
         if name.nil?
           raise ArgumentError, "missing first `name` argument or keyword `name:`"
         end
@@ -207,6 +208,7 @@ module GraphQL
         name_s = -name.to_s
         @underscored_name = -Member::BuildType.underscore(name_s)
         @name = -(camelize ? Member::BuildType.camelize(name_s) : name_s)
+        @fake = fake
         @description = description
         if field.is_a?(GraphQL::Schema::Field)
           raise ArgumentError, "Instead of passing a field as `field:`, use `add_field(field)` to add an already-defined field."
@@ -397,6 +399,10 @@ module GraphQL
         field_defn.name = @name
         if @return_type_expr
           field_defn.type = -> { type }
+        end
+
+        if @fake
+          field_defn.fake = @fake
         end
 
         if @description

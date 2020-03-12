@@ -41,6 +41,7 @@ require "graphql/schema/directive/include"
 require "graphql/schema/directive/skip"
 require "graphql/schema/directive/feature"
 require "graphql/schema/directive/transform"
+require "graphql/schema/directive/fake"
 require "graphql/schema/type_membership"
 
 require "graphql/schema/resolver"
@@ -1486,6 +1487,7 @@ module GraphQL
           "include" => GraphQL::Schema::Directive::Include,
           "skip" => GraphQL::Schema::Directive::Skip,
           "deprecated" => GraphQL::Schema::Directive::Deprecated,
+          "fake" => GraphQL::Schema::Directive::Fake,
         }
       end
 

@@ -103,6 +103,9 @@ module GraphQL
           else
             "@deprecated(reason: #{reason.value.to_s.inspect})"
           end
+        elsif directive.name == "fake"
+          faker = directive.arguments.find { |arg| arg.name == 'helper' }
+          %Q{@fake(type: #{faker.value})}
         else
           super
         end

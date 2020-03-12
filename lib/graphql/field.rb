@@ -11,6 +11,7 @@ module GraphQL
       :property, :hash_key, :complexity,
       :mutation, :function,
       :edge_class,
+      :fake,
       :relay_node_field,
       :relay_nodes_field,
       :subscription_scope,
@@ -20,7 +21,7 @@ module GraphQL
 
     ensure_defined(
       :name, :deprecation_reason, :description, :description=, :property, :hash_key,
-      :mutation, :arguments, :complexity, :function,
+      :mutation, :arguments, :complexity, :function, :fake,
       :resolve, :resolve=, :lazy_resolve, :lazy_resolve=, :lazy_resolve_proc, :resolve_proc,
       :type, :type=, :name=, :property=, :hash_key=,
       :relay_node_field, :relay_nodes_field, :edges?, :edge_class, :subscription_scope,
@@ -48,6 +49,9 @@ module GraphQL
 
     # @return [String, nil] The client-facing reason why this field is deprecated (if present, the field is deprecated)
     attr_accessor :deprecation_reason
+
+    # @return [String, nil] The Faker.js helper method to generate the @fake directive in the Schema
+    attr_accessor :fake
 
     # @return [Hash<String => GraphQL::Argument>] Map String argument names to their {GraphQL::Argument} implementations
     attr_accessor :arguments
