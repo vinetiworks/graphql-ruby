@@ -27,6 +27,8 @@ module GraphQL
       # @return [String, nil] If present, the field is marked as deprecated with this documentation
       attr_accessor :deprecation_reason
 
+      attr_accessor :fake
+
       # @return [Symbol] Method or hash key on the underlying object to look up
       attr_reader :method_sym
 

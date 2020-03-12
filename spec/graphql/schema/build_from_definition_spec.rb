@@ -182,7 +182,7 @@ type Hello {
       SCHEMA
 
       built_schema = GraphQL::Schema.from_definition(schema)
-      assert_equal ['deprecated', 'include', 'skip'], built_schema.directives.keys.sort
+      assert_equal ['deprecated', 'fake', 'include', 'skip'], built_schema.directives.keys.sort
     end
 
     it 'supports overriding built-in directives' do
